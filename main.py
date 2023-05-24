@@ -77,11 +77,12 @@ def main():
     print(f'\nO gradiente da função problema é: {func.gradient}')
 
     for i in range(4):
-        tolerance = 10 ** (i + 2)
+        tolerance: float = 10 ** (i + 2)
 
         for i in range(100):
             x0 = np.random.uniform(low=-10.0, high=10.0, size=2)
-            algorithm = MG(func, x0)
+            mg = MG(func, x0, tolerance)
+            mg.algorithm()
 
 
 if __name__ == "__main__":
