@@ -28,6 +28,11 @@ class MG():
     def response():
         pass
 
+    # TODO: Verificar se o gradiente de xk está sendo executado mais de uma vez o que pode ser feito para melhorar
+    def next_iteration(self) -> np.ndarray:
+        alpha_k = self.alpha_k()
+        return self.xk - np.array([alpha_k, alpha_k]) * self.gradient_xk()
+
     def alpha_k(self):
         f = lambdify(self.alpha, self.arg_min())
 
@@ -58,7 +63,8 @@ class MG():
 
             # _gradient_xk = self.gradient_xk()
             # _arg_min = self.arg_min()
-            _alpha_k = self.alpha_k()
+            # _alpha_k = self.alpha_k()
+            _next_iteration = self.next_iteration()
 
             # self.k += 1
 
