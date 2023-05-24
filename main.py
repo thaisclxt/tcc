@@ -1,6 +1,8 @@
 import numpy as np
+
 from sympy import parse_expr, sympify, Expr
 from function import Function
+from methods.MG import MG
 
 
 example_functions = {
@@ -72,12 +74,14 @@ def main():
     expression: Expr = parse_expr(function.replace("^", "**"))
 
     func = Function(is_user_input, expression, x_star)
+    print(f'\nO gradiente da função problema é: {func.gradient}')
 
     for i in range(4):
         tolerance = 10 ** (i + 2)
 
         for i in range(100):
             x0 = np.random.uniform(low=-10.0, high=10.0, size=2)
+            algorithm = MG(func, x0)
 
 
 if __name__ == "__main__":
