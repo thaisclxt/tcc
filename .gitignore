@@ -1,0 +1,2 @@
+# Impede que sejam adicionados arquivos do tipo .pyc
+__pycache__/
