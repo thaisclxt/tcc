@@ -1,6 +1,7 @@
 import numpy as np
 
-from sympy import simplify
+from scipy import optimize
+from sympy import simplify, lambdify
 from function import Function
 
 
@@ -27,6 +28,12 @@ class MG():
     def response():
         pass
 
+    def alpha_k(self):
+        f = lambdify(self.alpha, self.arg_min())
+
+        resultado = optimize.fmin_bfgs(f, 0)
+        return resultado[0]
+
     def arg_min(self):
         f = self.xk - np.array([self.alpha, self.alpha]) * self.gradient_xk()
         return simplify(self.function.expression.subs({self.x: f[0], self.y: f[1]}))
@@ -50,7 +57,8 @@ class MG():
                 break
 
             # _gradient_xk = self.gradient_xk()
-            _arg_min = self.arg_min()
+            # _arg_min = self.arg_min()
+            _alpha_k = self.alpha_k()
 
             # self.k += 1
 
