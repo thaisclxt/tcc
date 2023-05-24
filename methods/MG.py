@@ -19,6 +19,15 @@ class MG():
     def response():
         pass
 
+    def gradient_xk(self) -> np.ndarray:
+        gradient = self.function.gradient
+        xk = self.xk_list[self.k]
+
+        a = gradient[0].subs({self.function.x: xk[0], self.function.y: xk[1]})
+        b = gradient[1].subs({self.function.x: xk[0], self.function.y: xk[1]})
+
+        return np.array([a, b], dtype=float)
+
     def norm(self) -> float:
         return np.linalg.norm(self.xk_list[self.k] - self.xk_list[self.k - 1])
 
@@ -28,6 +37,8 @@ class MG():
             # Verifica se o resultado encontrado é igual ao resultado experado
             if np.array_equal(self.xk_list[self.k], self.function.global_minimun):
                 break
+
+            _gradient_xk = self.gradient_xk()
 
             # self.k += 1
 
