@@ -20,22 +20,20 @@ class MG():
         self.alpha = self.function.alpha
 
         self.time = self.calculate_time
-        self.result = self.response
 
     def calculate_time():
         pass
 
-    def response():
-        pass
-
     # TODO: Verificar se o gradiente de xk está sendo executado mais de uma vez o que pode ser feito para melhorar
-    def next_iteration(self) -> np.ndarray:
+    def result(self) -> np.ndarray:
         alpha_k = self.alpha_k()
         return self.xk - np.array([alpha_k, alpha_k]) * self.gradient_xk()
 
     def alpha_k(self):
         f = lambdify(self.alpha, self.arg_min())
 
+        # TODO: verificar os resultados, pois estão pais para os casos que não são o primeiro
+        # TODO: retirar esses warnings que estão imprimindo
         resultado = optimize.fmin_bfgs(f, 0)
         return resultado[0]
 
@@ -61,13 +59,16 @@ class MG():
             if np.array_equal(self.xk_list[self.k], self.function.global_minimun):
                 break
 
-            # _gradient_xk = self.gradient_xk()
-            # _arg_min = self.arg_min()
-            # _alpha_k = self.alpha_k()
-            _next_iteration = self.next_iteration()
+            self.response = self.result()
 
-            # self.k += 1
+            # TODO: parece que ta adicionando o ultimo valor duplicado
+            self.xk_list.append(self.response)
 
+            print(f'Iteração {self.k} = {self.xk_list[self.k]}')
+
+            self.k += 1
+
+            # TODO: não posso calcular a norma da x0 - a x1
             # Verifica se a distância entre a iteração atual e a iteração anterior é menor ou igual à tolerância
             if self.norm() <= self.tolerance:
                 break
