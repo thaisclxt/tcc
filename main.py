@@ -80,6 +80,7 @@ def norm(a, b):
     return np.linalg.norm(a - b)
 
 
+# TODO: Criar um READEME e exeplicar que essa função existe para caso o usuário deseje executar o app sem ser pelo jupyter
 def main():
     is_user_input = function_type()
     function = define_function(is_user_input)
@@ -88,7 +89,6 @@ def main():
     expression: Expr = parse_expr(function.replace("^", "**"))
 
     func = Function(is_user_input, expression, x_star)
-    # print(f'\nO gradiente da função problema é: {func.gradient}')
 
     for i in range(4):
         tolerance: float = 10**-(i+2)
