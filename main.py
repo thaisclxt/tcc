@@ -70,9 +70,6 @@ def calculate_result_mean(list: list[np.ndarray]):
     media_x = np.mean(np.array(list)[:, 0])
     media_y = np.mean(np.array(list)[:, 1])
 
-    print('Média dos valores de x:', media_x)
-    print('Média dos valores de y:', media_y)
-
     return media_x, media_y
 
 
@@ -104,7 +101,7 @@ def main():
             result_list.append(mg.xk)
             k_list.append(mg.k)
 
-            print(f'\nx0: {x0}, x{mg.k}: {mg.xk}\n')
+            # print(f'\nx0: {x0}, x{mg.k}: {mg.xk}\n')
 
         print('\n\n\n')
         print('\n-----------------TABELA-----------------\n')

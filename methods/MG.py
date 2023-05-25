@@ -21,6 +21,7 @@ class MG():
 
         self.time = self.calculate_time
 
+    # TODO: Implementar o calculo
     def calculate_time():
         pass
 
