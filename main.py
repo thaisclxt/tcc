@@ -66,6 +66,20 @@ def define_global_minimun(is_user_input: bool, function: str) -> np.ndarray:
     return np.array(x_star, dtype=float)
 
 
+def calculate_result_mean(list: list[np.ndarray]):
+    media_x = np.mean(np.array(list)[:, 0])
+    media_y = np.mean(np.array(list)[:, 1])
+
+    print('Média dos valores de x:', media_x)
+    print('Média dos valores de y:', media_y)
+
+    return media_x, media_y
+
+
+def norm(a, b):
+    return np.linalg.norm(a - b)
+
+
 def main():
     is_user_input = function_type()
     function = define_function(is_user_input)
@@ -74,20 +88,31 @@ def main():
     expression: Expr = parse_expr(function.replace("^", "**"))
 
     func = Function(is_user_input, expression, x_star)
-    print(f'\nO gradiente da função problema é: {func.gradient}')
+    # print(f'\nO gradiente da função problema é: {func.gradient}')
 
     for i in range(4):
         tolerance: float = 10**-(i+2)
+        result_list = []
+        k_list = []
 
-        # for i in range(100):
-        x0 = np.random.uniform(low=-2.0, high=10.0, size=2)
-        print(f'\nA iteração inicial é: {x0}')
+        for j in range(100):
+            x0 = np.random.uniform(low=0.0, high=10.0, size=2)
 
-        mg = MG(func, x0, tolerance)
-        mg.algorithm()
+            mg = MG(func, x0, tolerance)
+            mg.algorithm()
 
+            result_list.append(mg.xk)
+            k_list.append(mg.k)
+
+            print(f'\nx0: {x0}, x{mg.k}: {mg.xk}\n')
+
+        print('\n\n\n')
+        print('\n-----------------TABELA-----------------\n')
+        print(f'Média de iterações: {np.mean(k_list)}')
+        meee = calculate_result_mean(result_list)
         print(
-            f'\nParou na iteração {mg.k} com o resultado {mg.xk}\n')
+            f'Média do resultado obtido - o resultado esperado: {norm(meee, x_star)}')
+        print('\n\n\n')
 
 
 if __name__ == "__main__":

@@ -32,8 +32,7 @@ class MG():
     def alpha_k(self):
         f = lambdify(self.alpha, self.arg_min())
 
-        # TODO: retirar esses warnings que estão imprimindo
-        resultado = optimize.fmin(f, 0)
+        resultado = optimize.fmin(f, 0, disp=False)
         return resultado[0]
 
     def arg_min(self):
@@ -64,7 +63,7 @@ class MG():
 
             self.k += 1
 
-            print(f'\nIteração {self.k} = {self.xk}')
+            # print(f'\nIteração {self.k} = {self.xk}')
 
             # TODO: não posso calcular a norma da x0 - a x1
             # Verifica se a distância entre a iteração atual e a iteração anterior é menor ou igual à tolerância
