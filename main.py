@@ -80,7 +80,7 @@ def main():
         tolerance: float = 10**-(i+2)
 
         # for i in range(100):
-        x0 = np.random.uniform(low=-10.0, high=10.0, size=2)
+        x0 = np.random.uniform(low=-2.0, high=10.0, size=2)
         print(f'\nA iteração inicial é: {x0}')
 
         mg = MG(func, x0, tolerance)

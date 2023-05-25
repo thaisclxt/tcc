@@ -32,9 +32,8 @@ class MG():
     def alpha_k(self):
         f = lambdify(self.alpha, self.arg_min())
 
-        # TODO: verificar o resultado da equação 2
         # TODO: retirar esses warnings que estão imprimindo
-        resultado = optimize.fmin_bfgs(f, 0)
+        resultado = optimize.fmin(f, 0)
         return resultado[0]
 
     def arg_min(self):
