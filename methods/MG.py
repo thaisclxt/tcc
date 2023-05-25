@@ -32,7 +32,7 @@ class MG():
     def alpha_k(self):
         f = lambdify(self.alpha, self.arg_min())
 
-        # TODO: verificar os resultados, pois estão pais para os casos que não são o primeiro
+        # TODO: verificar o resultado da equação 2
         # TODO: retirar esses warnings que estão imprimindo
         resultado = optimize.fmin_bfgs(f, 0)
         return resultado[0]
@@ -59,14 +59,13 @@ class MG():
             if np.array_equal(self.xk_list[self.k], self.function.global_minimun):
                 break
 
-            self.response = self.result()
+            self.xk = self.result()
 
-            # TODO: parece que ta adicionando o ultimo valor duplicado
-            self.xk_list.append(self.response)
-
-            print(f'Iteração {self.k} = {self.xk_list[self.k]}')
+            self.xk_list.append(self.xk)
 
             self.k += 1
+
+            print(f'\nIteração {self.k} = {self.xk}')
 
             # TODO: não posso calcular a norma da x0 - a x1
             # Verifica se a distância entre a iteração atual e a iteração anterior é menor ou igual à tolerância

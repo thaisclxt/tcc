@@ -87,7 +87,7 @@ def main():
         mg.algorithm()
 
         print(
-            f'\nParou na iteração {mg.k} com o resultado {mg.response}\n')
+            f'\nParou na iteração {mg.k} com o resultado {mg.xk}\n')
 
 
 if __name__ == "__main__":
