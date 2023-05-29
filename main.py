@@ -1,8 +1,11 @@
+import pandas as pd
 import numpy as np
 
 from sympy import parse_expr, sympify, Expr
 from function import Function
 from methods.MG import MG
+
+from rich.progress import track
 
 
 example_functions = {
@@ -87,12 +90,19 @@ def main():
 
     func = Function(is_user_input, expression, x_star)
 
+    table1 = []
+    table2 = []
+    table3 = []
+    table4 = []
+
+    print()
+
     for i in range(4):
         tolerance: float = 10**-(i+2)
         result_list = []
         k_list = []
 
-        for j in range(100):
+        for j in track(range(100), description='Processando...'):
             x0 = np.random.uniform(low=0.0, high=10.0, size=2)
 
             mg = MG(func, x0, tolerance)
@@ -101,15 +111,24 @@ def main():
             result_list.append(mg.xk)
             k_list.append(mg.k)
 
-            # print(f'\nx0: {x0}, x{mg.k}: {mg.xk}\n')
+        result_mean = calculate_result_mean(result_list)
 
-        print('\n\n\n')
-        print('\n-----------------TABELA-----------------\n')
-        print(f'Média de iterações: {np.mean(k_list)}')
-        meee = calculate_result_mean(result_list)
-        print(
-            f'Média do resultado obtido - o resultado esperado: {norm(meee, x_star)}')
-        print('\n\n\n')
+        table1.append(tolerance)
+        table2.append(np.mean(k_list))
+        table3.append(result_mean)
+        table4.append(norm(result_mean, x_star))
+
+    table = pd.DataFrame({
+        "tol": table1,
+        "k\u0304": table2,
+        "x\u0304\u1D4F": table3,
+        "\u2225x\u0304\u1D4F - x*\u2225": table4
+    })
+
+    print(
+        f'\nTabela 1 - Testes do Método do Gradiente para a função {function}\n')
+
+    print(table)
 
 
 if __name__ == "__main__":
