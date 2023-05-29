@@ -1,3 +1,5 @@
+import time
+
 import pandas as pd
 import numpy as np
 
@@ -94,6 +96,7 @@ def main():
     table2 = []
     table3 = []
     table4 = []
+    table5 = []
 
     print()
 
@@ -101,13 +104,16 @@ def main():
         tolerance: float = 10**-(i+2)
         result_list = []
         k_list = []
+        time_list = []
 
         for j in track(range(100), description='Processando...'):
             x0 = np.random.uniform(low=0.0, high=10.0, size=2)
+            start_time = time.time()
 
             mg = MG(func, x0, tolerance)
             mg.algorithm()
 
+            time_list.append(time.time() - start_time)
             result_list.append(mg.xk)
             k_list.append(mg.k)
 
@@ -117,9 +123,11 @@ def main():
         table2.append(np.mean(k_list))
         table3.append(result_mean)
         table4.append(norm(result_mean, x_star))
+        table5.append(np.mean(time_list))
 
     table = pd.DataFrame({
         "tol": table1,
+        "T\u0304": table5,
         "k\u0304": table2,
         "x\u0304\u1D4F": table3,
         "\u2225x\u0304\u1D4F - x*\u2225": table4
