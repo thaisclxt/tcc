@@ -1,4 +1,5 @@
 import numpy as np
+import time
 
 from scipy import optimize
 from sympy import simplify, lambdify
@@ -19,11 +20,8 @@ class MG():
         self.y = self.function.y
         self.alpha = self.function.alpha
 
-        self.time = self.calculate_time
-
-    # TODO: Implementar o calculo
-    def calculate_time():
-        pass
+    def calculate_time(self, start_time) -> None:
+        self.processing_time = time.time() - start_time
 
     # TODO: Verificar se o gradiente de xk está sendo executado mais de uma vez o que pode ser feito para melhorar
     def result(self) -> np.ndarray:
@@ -52,21 +50,20 @@ class MG():
         return np.linalg.norm(self.xk_list[self.k] - self.xk_list[self.k - 1])
 
     def algorithm(self):
+        start_time = time.time()
         # Laço de repetição que será executado enquanto k for menor que 100, para fazer 100 casos de teste, a não ser que o critério de parada seja alcançado
         while self.k < 100:
             # Verifica se o resultado encontrado é igual ao resultado experado
             if np.array_equal(self.xk_list[self.k], self.function.global_minimun):
+                self.calculate_time(start_time)
                 break
 
             self.xk = self.result()
-
             self.xk_list.append(self.xk)
 
             self.k += 1
 
-            # print(f'\nIteração {self.k} = {self.xk}')
-
-            # TODO: não posso calcular a norma da x0 - a x1
             # Verifica se a distância entre a iteração atual e a iteração anterior é menor ou igual à tolerância
             if self.norm() <= self.tolerance:
+                self.calculate_time(start_time)
                 break
