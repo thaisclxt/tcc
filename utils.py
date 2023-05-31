@@ -24,8 +24,18 @@ example_functions = {
 number_of_examples = len(example_functions)
 
 
+def requer_regularization() -> bool:
+    print('Para qual método deseja executar o algorítmo?')
+    print('1- MG - Método do Gradiente')
+    print('2- MGRP - Método do Gradiente com Regularização Proximal')
+
+    is_MG = input() == '1'
+
+    return is_MG
+
+
 def function_type() -> bool:
-    print('Qual função deseja escolher?')
+    print('\nQual função deseja escolher?')
     print('1- Digitar uma função')
     print('2- Escolher uma função de exemplo')
 
