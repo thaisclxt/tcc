@@ -1,21 +1,3 @@
-# import pandas as pd
-
-
-# def generate_table(function, tolerance_row, time_row, k_row, x_row, norm_row):
-#     table = pd.DataFrame({
-#         "tol": tolerance_row,
-#         "T\u0304": time_row,
-#         "k\u0304": k_row,
-#         "x\u0304\u1D4F": x_row,
-#         "\u2225x\u0304\u1D4F - x*\u2225": norm_row
-#     })
-
-#     print(
-#         f'\nTabela 1 - Testes do Método do Gradiente para a função {function}\n')
-
-#     print(table)
-
-
 from rich.console import Console
 from rich.table import Table
 
