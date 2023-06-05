@@ -1,69 +1,39 @@
 import numpy as np
 import time
 
-from scipy import optimize
-from sympy import simplify, lambdify
+from sympy import simplify
 from function import Function
+from methods.method import Method
 
 
-class MG():
-    def __init__(self, function: Function, initial_iteration: np.ndarray, tolerance: float):
-        self.function = function
-        self.x0 = initial_iteration
-        self.tolerance = tolerance
+class MG(Method):
+    def __init__(self, function: Function, tolerance: float):
+        super().__init__(function, tolerance)
 
-        self.k = 0
-        self.xk_list: list[np.ndarray] = [self.x0]
-        self.xk = self.xk_list[self.k]
+    def result(self, _alpha_k) -> np.ndarray:
+        return self.xk - np.array([_alpha_k, _alpha_k]) * self.gradient_xk()
 
-        self.x = self.function.x
-        self.y = self.function.y
-        self.alpha = self.function.alpha
-
-    def calculate_time(self, start_time) -> None:
-        self.processing_time = time.time() - start_time
-
-    # TODO: Verificar se o gradiente de xk está sendo executado mais de uma vez o que pode ser feito para melhorar
-    def result(self) -> np.ndarray:
-        alpha_k = self.alpha_k()
-        return self.xk - np.array([alpha_k, alpha_k]) * self.gradient_xk()
-
-    def alpha_k(self):
-        f = lambdify(self.alpha, self.arg_min())
-
-        resultado = optimize.fmin(f, 0, disp=False)
-        return resultado[0]
-
-    def arg_min(self):
-        f = self.xk - np.array([self.alpha, self.alpha]) * self.gradient_xk()
+    def arg_min(self, _gradient_xk):
+        f = self.xk - np.array([self.alpha, self.alpha]) * _gradient_xk
         return simplify(self.function.expression.subs({self.x: f[0], self.y: f[1]}))
-
-    def gradient_xk(self) -> np.ndarray:
-        gradient = self.function.gradient
-
-        a = gradient[0].subs({self.x: self.xk[0], self.y: self.xk[1]})
-        b = gradient[1].subs({self.x: self.xk[0], self.y: self.xk[1]})
-
-        return np.array([a, b], dtype=float)
-
-    def norm(self) -> float:
-        return np.linalg.norm(self.xk_list[self.k] - self.xk_list[self.k - 1])
 
     def algorithm(self):
         start_time = time.time()
-        # Laço de repetição que será executado enquanto k for menor que 100, para fazer 100 casos de teste, a não ser que o critério de parada seja alcançado
+
         while self.k < 100:
-            # Verifica se o resultado encontrado é igual ao resultado experado
-            if np.array_equal(self.xk_list[self.k], self.function.global_minimun):
-                self.calculate_time(start_time)
+            if self.found_result():
+                self.set_time(start_time)
                 break
 
-            self.xk = self.result()
-            self.xk_list.append(self.xk)
+            _gradient_xk = self.gradient_xk()
+            _arg_min = self.arg_min(_gradient_xk)
+            _alpha_k = self.alpha_k(_arg_min)
+
+            self.xk = self.result(_alpha_k)
+            self.all_iterations.append(self.xk)
 
             self.k += 1
 
-            # Verifica se a distância entre a iteração atual e a iteração anterior é menor ou igual à tolerância
             if self.norm() <= self.tolerance:
-                self.calculate_time(start_time)
+                self.set_time(start_time)
                 break

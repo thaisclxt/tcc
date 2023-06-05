@@ -43,9 +43,7 @@ def main():
         time_list = []
 
         for j in track(range(100), description='Processando...'):
-            x0 = np.random.uniform(low=0.0, high=10.0, size=2)
-
-            mg = MG(func, x0, tolerance)
+            mg = MG(func, tolerance)
             mg.algorithm()
 
             time_list.append(mg.processing_time)
