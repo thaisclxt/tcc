@@ -24,14 +24,12 @@ example_functions = {
 number_of_examples = len(example_functions)
 
 
-def requer_regularization() -> bool:
-    print('Para qual método deseja executar o algorítmo?')
+def method_type() -> bool:
+    print('Por qual método deseja executar o algorítmo?')
     print('1- MG - Método do Gradiente')
     print('2- MGRP - Método do Gradiente com Regularização Proximal')
 
-    is_MG = input() == '1'
-
-    return is_MG
+    return input() == '1'
 
 
 def function_type() -> bool:
@@ -39,14 +37,12 @@ def function_type() -> bool:
     print('1- Digitar uma função')
     print('2- Escolher uma função de exemplo')
 
-    is_user_input = input() == '1'
-
-    return is_user_input
+    return input() == '1'
 
 
 def define_function(is_user_input: bool) -> str:
     if is_user_input:
-        function = input('\nEntre com a função ex: 2x^2 + 2*y -32: ')
+        return input('\nEntre com a função ex: 2x^2 + 2*y -32: ')
     else:
         print('\nQual dessas funções deseja escolher?')
 
@@ -58,9 +54,7 @@ def define_function(is_user_input: bool) -> str:
         choice = int(input())
         index = choice if choice < number_of_examples else number_of_examples - 1
 
-        function = list(example_functions.keys())[index]
-
-    return function
+        return list(example_functions.keys())[index]
 
 
 def define_global_minimun(is_user_input: bool, function: str) -> np.ndarray:

@@ -19,7 +19,7 @@ def norm(a, b):
 
 
 def main():
-    is_MG = utils.requer_regularization()
+    is_MG = utils.method_type()
     is_user_input = utils.function_type()
     function = utils.define_function(is_user_input)
     x_star = utils.define_global_minimun(is_user_input, function)
