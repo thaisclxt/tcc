@@ -31,6 +31,10 @@ class Method():
 
         return np.array([a, b], dtype=float)
 
+    # TODO: documentação => xk+1
+    def result(self, _alpha_k) -> np.ndarray:
+        return self.xk - np.array([_alpha_k, _alpha_k]) * self.gradient_xk()
+
     def alpha_k(self, arg_min):
         f = lambdify(self.alpha, arg_min)
 
