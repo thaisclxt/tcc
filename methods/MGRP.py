@@ -6,7 +6,7 @@ from function import Function
 from methods.method import Method
 
 
-class MG(Method):
+class MGRP(Method):
     def __init__(self, function: Function, tolerance: float):
         super().__init__(function, tolerance)
 
@@ -15,8 +15,8 @@ class MG(Method):
         substitution = self.function.expression.subs(
             {self.x: f[0], self.y: f[1]})
         simp = simplify(substitution)
-        # mgrp = simp + self.alpha ** 2
-        return simp
+        mgrp = simp + self.alpha ** 2
+        return mgrp
 
     def algorithm(self) -> None:
         start_time = time.time()

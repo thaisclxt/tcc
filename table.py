@@ -7,8 +7,10 @@ def unpack_data(table, data):
         table.add_row(*row)
 
 
-def generate_table(function, tolerance_row, time_row, k_row, x_row, norm_row):
-    title = f'\nTestes do Método do Gradiente para a função [bold]{function}[/bold]\n'
+def generate_table(is_MG, function, tolerance_row, time_row, k_row, x_row, norm_row):
+    title = '\nTestes do Método do Gradiente '
+    title += "- MG " if is_MG else "com Regularização Proximal - MGRP "
+    title += f'para a função [bold]{function}[/bold]\n'
     table = Table(title=title)
 
     table.add_column("tol", justify="right", style="cyan")

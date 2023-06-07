@@ -3,6 +3,7 @@ import numpy as np
 from sympy import parse_expr, Expr
 from function import Function
 from methods.MG import MG
+from methods.MGRP import MGRP
 from rich.progress import track
 from table import generate_table
 
@@ -43,8 +44,12 @@ def main():
         time_list = []
 
         for j in track(range(100), description='Processando...'):
-            mg = MG(func, tolerance)
-            mg.algorithm()
+            if is_MG:
+                mg = MG(func, tolerance)
+                mg.algorithm()
+            else:
+                mg = MGRP(func, tolerance)
+                mg.algorithm()
 
             time_list.append(mg.processing_time)
             result_list.append(mg.xk)
@@ -58,7 +63,7 @@ def main():
         x_row.append(str(result_mean))
         norm_row.append(str(norm(result_mean, x_star)))
 
-    generate_table(function, tolerance_row, time_row, k_row, x_row, norm_row)
+    generate_table(is_MG, function, tolerance_row, time_row, k_row, x_row, norm_row)
 
 
 if __name__ == "__main__":

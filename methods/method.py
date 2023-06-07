@@ -22,6 +22,7 @@ class Method():
         self.x: Symbol = self.function.x
         self.y: Symbol = self.function.y
         self.alpha: Symbol = self.function.alpha
+        self.processing_time = 0
 
     def gradient_xk(self) -> np.ndarray:
         gradient = self.function.gradient
