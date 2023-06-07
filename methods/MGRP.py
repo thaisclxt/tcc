@@ -15,7 +15,7 @@ class MGRP(Method):
         substitution = self.function.expression.subs(
             {self.x: f[0], self.y: f[1]})
         simp = simplify(substitution)
-        mgrp = simp + self.alpha ** 2
+        mgrp = simp + self.alpha ** 2 * (np.linalg.norm(np.array(_gradient_xk)) ** 2)
         return mgrp
 
     def algorithm(self) -> None:
