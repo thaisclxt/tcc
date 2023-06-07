@@ -37,33 +37,59 @@ def main():
 
     print()
 
-    for i in range(4):
-        tolerance: float = 10**-(i+2)
-        result_list = []
-        k_list = []
-        time_list = []
+    if is_MG:
+        for i in range(4):
+            tolerance: float = 10**-(i+2)
+            result_list = []
+            k_list = []
+            time_list = []
 
-        for j in track(range(100), description='Processando...'):
-            if is_MG:
+            for _ in track(range(100), description='Processando...'):
                 mg = MG(func, tolerance)
                 mg.algorithm()
-            else:
-                mg = MGRP(func, tolerance)
-                mg.algorithm()
 
-            time_list.append(mg.processing_time)
-            result_list.append(mg.xk)
-            k_list.append(mg.k)
+                time_list.append(mg.processing_time)
+                result_list.append(mg.xk)
+                k_list.append(mg.k)
 
-        result_mean = calculate_result_mean(result_list)
+            result_mean = calculate_result_mean(result_list)
 
-        tolerance_row.append(str(tolerance))
-        time_row.append(str(np.mean(time_list)))
-        k_row.append(str(np.mean(k_list)))
-        x_row.append(str(result_mean))
-        norm_row.append(str(norm(result_mean, x_star)))
+            tolerance_row.append(str(tolerance))
+            time_row.append(str(np.mean(time_list)))
+            k_row.append(str(np.mean(k_list)))
+            x_row.append(str(result_mean))
+            norm_row.append(str(norm(result_mean, x_star)))
 
-    generate_table(is_MG, function, tolerance_row, time_row, k_row, x_row, norm_row)
+        generate_table(is_MG, function, tolerance_row,
+                       time_row, k_row, x_row, norm_row)
+    else:
+        for aa in range(3):
+            for i in range(4):
+                tolerance: float = 10**-(i+2)
+                result_list = []
+                k_list = []
+                time_list = []
+
+                for _ in track(range(100), description='Processando...'):
+                    mgrp = MGRP(func, tolerance, aa)
+                    mgrp.algorithm()
+
+                    time_list.append(mgrp.processing_time)
+                    result_list.append(mgrp.xk)
+                    k_list.append(mgrp.k)
+
+                result_mean = calculate_result_mean(result_list)
+
+                tolerance_row.append(str(tolerance))
+                time_row.append(str(np.mean(time_list)))
+                k_row.append(str(np.mean(k_list)))
+                x_row.append(str(result_mean))
+                norm_row.append(str(norm(result_mean, x_star)))
+
+            print(f'{mgrp.lamda} = {aa} + 1 + (1 / ({mgrp.k}+1))')
+
+            generate_table(is_MG, function, tolerance_row,
+                           time_row, k_row, x_row, norm_row)
 
 
 if __name__ == "__main__":

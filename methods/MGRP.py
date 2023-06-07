@@ -7,15 +7,17 @@ from methods.method import Method
 
 
 class MGRP(Method):
-    def __init__(self, function: Function, tolerance: float):
+    def __init__(self, function: Function, tolerance: float, aa: int):
         super().__init__(function, tolerance)
+        self.lamda: float = aa + 1 + (1 / (self.k+1))
 
     def arg_min(self, _gradient_xk):
         f = self.xk - np.array([self.alpha, self.alpha]) * _gradient_xk
         substitution = self.function.expression.subs(
             {self.x: f[0], self.y: f[1]})
         simp = simplify(substitution)
-        mgrp = simp + self.alpha ** 2 * (np.linalg.norm(np.array(_gradient_xk)) ** 2)
+        mgrp = simp + self.alpha ** 2 * self.lamda * \
+            (np.linalg.norm(np.array(_gradient_xk)) ** 2)
         return mgrp
 
     def algorithm(self) -> None:
