@@ -21,9 +21,10 @@ class MG(Method):
             table.add_row(*row)
 
     def generate_table(self, tolerance_row, time_row, k_row, x_row, norm_row):
-        title += f'\nTestes do Método do Gradiente - MG para a função [bold]{self.function}[/bold]\n'
+        title = f'\nTestes do Método do Gradiente - MG para a função [bold]{self.function.expression}[/bold]\n'
         table = Table(title=title)
 
+        table.add_column("nº", justify="right", style="white")
         table.add_column("tol", justify="right", style="cyan")
         table.add_column("T\u0304", justify="center", style="blue")
         table.add_column("k\u0304", justify="right", style="magenta")
@@ -32,7 +33,7 @@ class MG(Method):
                          justify="center", style="red")
 
         for i in range(4):
-            table.add_row(tolerance_row[i], time_row[i],
+            table.add_row(str(i), tolerance_row[i], time_row[i],
                           k_row[i], x_row[i], norm_row[i])
 
         console = Console()

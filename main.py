@@ -5,7 +5,6 @@ from function import Function
 from methods.MG import MG
 from methods.MGRP import MGRP
 from rich.progress import track
-from table import generate_table
 
 
 def calculate_result_mean(list: list[np.ndarray]):
@@ -30,7 +29,7 @@ def main():
     func = Function(is_user_input, expression, x_star)
 
     tolerance_row = []
-    lamda_row = []
+    lambda_row = []
     time_row = []
     k_row = []
     x_row = []
@@ -82,14 +81,15 @@ def main():
                 result_mean = calculate_result_mean(result_list)
 
                 tolerance_row.append(str(tolerance))
-                lamda_row.append(
-                    f'{aa} + 1 + (1 / (k+1))')
+                lambda_row.append(f'{aa} + 1 + (1 / (k+1))')
                 time_row.append(str(np.mean(time_list)))
                 k_row.append(str(np.mean(k_list)))
                 x_row.append(str(result_mean))
                 norm_row.append(str(norm(result_mean, x_star)))
 
-        mgrp.generate_table(lamda_row, tolerance_row,
+            print()
+
+        mgrp.generate_table(lambda_row, tolerance_row,
                             time_row, k_row, x_row, norm_row)
 
 
