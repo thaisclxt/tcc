@@ -2,6 +2,7 @@ import time
 import utils
 import numpy as np
 
+from table import generate_table
 from sympy import parse_expr, Expr
 from function import Function
 from methods.MG import MG
@@ -73,10 +74,7 @@ def main():
         
         print()
 
-    if is_MG:
-        method.generate_table(tolerance_row, time_row, k_row, x_row, norm_row)
-    else:
-        method.generate_table(lambda_row, tolerance_row, time_row, k_row, x_row, norm_row)
+    generate_table(is_MG, function, lambda_row, tolerance_row, time_row, k_row, x_row, norm_row)
 
     end_time = int(time.time() - start_time)
     print(f'\nTempo de processamento total: {end_time // 60}min {end_time % 60}sec')
