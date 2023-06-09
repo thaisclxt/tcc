@@ -3,26 +3,21 @@ import numpy as np
 
 from sympy import simplify
 from function import Function
-from methods.method import Method
+from methods.MG import MG
 from rich.console import Console
 from rich.table import Table
 
 
-class MGRP(Method):
-    def __init__(self, function: Function, tolerance: float, aa: int):
+class MGRP(MG):
+    def __init__(self, function: Function, tolerance: float, index: int):
         super().__init__(function, tolerance)
-        self.aa = aa
+        self.index = index
 
-    def arg_min(self, _gradient_xk):
-        lambda_k: float = self.aa + 1 + (1 / (self.k+1))
+    def second_arg_min(self, _gradient_xk):
+        lambda_k: float = self.index + 1 + (1 / (self.k+1))
+        norm = (np.linalg.norm(np.array(_gradient_xk)) ** 2)
 
-        f = self.xk - np.array([self.alpha, self.alpha]) * _gradient_xk
-        substitution = self.function.expression.subs(
-            {self.x: f[0], self.y: f[1]})
-        simp = simplify(substitution)
-        mgrp = simp + self.alpha ** 2 * lambda_k * \
-            (np.linalg.norm(np.array(_gradient_xk)) ** 2)
-        return mgrp
+        return self.arg_min(_gradient_xk) + self.alpha ** 2 * lambda_k * norm
 
     def unpack_data(table, data):
         for row in zip(*data):
@@ -57,7 +52,7 @@ class MGRP(Method):
                 break
 
             _gradient_xk = self.gradient_xk()
-            _arg_min = self.arg_min(_gradient_xk)
+            _arg_min = self.second_arg_min(_gradient_xk)
             _alpha_k = self.alpha_k(_arg_min)
 
             self.xk = self.result(_alpha_k)

@@ -41,7 +41,7 @@ def main():
 
     extern_range = 1 if is_MG else 3
     table_rows = 4
-    total_tests = 1
+    total_tests = 100
 
     start_time = time.time()
 
