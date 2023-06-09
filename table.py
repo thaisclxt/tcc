@@ -8,7 +8,7 @@ def unpack_data(table, data):
 def title(is_MG, function):
 	title = '\nTestes do Método do Gradiente '
 	title +='- MG' if is_MG else 'com Regularização Proximal - MGRP'
-	title += f'para a função [bold]{function}[/bold]\n'
+	title += f' para a função [bold]{function}[/bold]\n'
 	return title
 
 def generate_table(is_MG, function, lambda_row, tolerance_row, time_row, k_row, x_row, norm_row):

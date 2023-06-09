@@ -70,7 +70,12 @@ def main():
             norm_row.append(str(norm(result_mean, x_star)))
 
             if not is_MG:
-                lambda_row.append(f'{index} + 1 + (1 / (k+1))')
+                if index == 0:
+                    lambda_row.append('1 / (k+1)')
+                elif index == 1:
+                    lambda_row.append('1 + (1 / (k+1))')
+                else:
+                    lambda_row.append('2')
         
         print()
 

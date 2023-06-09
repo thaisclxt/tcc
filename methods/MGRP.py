@@ -11,7 +11,13 @@ class MGRP(MG):
         self.index = index
 
     def second_arg_min(self, _gradient_xk):
-        lambda_k: float = self.index + 1 + (1 / (self.k+1))
+        if self.index == 0:
+            lambda_k = 1 / (self.k+1)
+        elif self.index == 1:
+            lambda_k = 1 + (1 / (self.k+1))
+        else:
+            lambda_k = 2
+
         norm = (np.linalg.norm(np.array(_gradient_xk)) ** 2)
 
         return self.arg_min(_gradient_xk) + self.alpha ** 2 * lambda_k * norm
