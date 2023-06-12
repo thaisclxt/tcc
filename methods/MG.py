@@ -10,7 +10,8 @@ class MG():
     def __init__(self, function: Function, tolerance: float):
         self.function = function
         self.tolerance = tolerance
-        self.initial_iteration: np.ndarray = np.random.uniform(low=0.0, high=10.0, size=2)
+        self.initial_iteration: np.ndarray = np.random.uniform(
+            low=0.0, high=10.0, size=2)
 
         self.k: int = 0
         self.all_iterations: list[np.ndarray] = [self.initial_iteration]
@@ -28,7 +29,7 @@ class MG():
         b = gradient[1].subs({self.x: self.xk[0], self.y: self.xk[1]})
 
         return np.array([a, b], dtype=float)
-    
+
     def arg_min(self, _gradient_xk):
         f = self.xk - np.array([self.alpha, self.alpha]) * _gradient_xk
         return simplify(self.function.expression.subs({self.x: f[0], self.y: f[1]}))

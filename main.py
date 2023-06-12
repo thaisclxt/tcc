@@ -54,7 +54,8 @@ def main():
             time_list = []
 
             for _ in track(range(total_tests), description="Processando..."):
-                method = MG(func, tolerance) if is_MG else MGRP(func, tolerance, index)
+                method = MG(func, tolerance) if is_MG else MGRP(
+                    func, tolerance, index)
                 method.algorithm()
 
                 time_list.append(method.processing_time)
@@ -76,13 +77,16 @@ def main():
                     lambda_row.append('1 + (1 / (k+1))')
                 else:
                     lambda_row.append('2')
-        
+
         print()
 
-    generate_table(is_MG, function, lambda_row, tolerance_row, time_row, k_row, x_row, norm_row)
+    generate_table(is_MG, function, lambda_row, tolerance_row,
+                   time_row, k_row, x_row, norm_row)
 
     end_time = int(time.time() - start_time)
-    print(f'\nTempo de processamento total: {end_time // 60}min {end_time % 60}sec')
+    print(
+        f'\nTempo de processamento total: {end_time // 60}min {end_time % 60}sec')
+
 
 if __name__ == "__main__":
     main()
