@@ -44,13 +44,12 @@ def main():
 
     extern_range = 1 if is_MG else 3
     table_rows = 4
-    total_tests = 10
+    total_tests = 100
     colors = ["red", "orange", "yellow", "green", "blue", "magenta",
               "cyan", "purple", "brown", "gray", "black", "pink"]
 
     start_time = time.time()
 
-    color_index = 0
     for index in range(extern_range):
         for row in range(table_rows):
             tolerance: float = 10**-(row+2)
@@ -69,8 +68,8 @@ def main():
 
             result_mean = calculate_result_mean(result_list)
 
-            plt.scatter(*zip(*result_list), color=colors[color_index])
-            color_index += 1
+            plt.scatter(*zip(*result_list),
+                        color=colors[row + table_rows * index])
 
             tolerance_row.append(str(tolerance))
             time_row.append(str(np.mean(time_list)))
