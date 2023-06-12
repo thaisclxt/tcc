@@ -38,5 +38,6 @@ def generate_table(is_MG, function, lambda_row, tolerance_row, time_row, k_row, 
             table.add_row(str(
                 i), tolerance_row[i], lambda_row[i], time_row[i], k_row[i], x_row[i], norm_row[i])
 
-    console = Console()
+    console = Console(record=True)
     console.print(table)
+    console.save_html("results.html")
