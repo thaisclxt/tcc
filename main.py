@@ -2,6 +2,8 @@ import time
 import utils
 import numpy as np
 
+import matplotlib.colors as mcolors
+import matplotlib.pyplot as plt
 from table import generate_table
 from sympy import parse_expr, Expr
 from function import Function
@@ -42,10 +44,13 @@ def main():
 
     extern_range = 1 if is_MG else 3
     table_rows = 4
-    total_tests = 100
+    total_tests = 10
+    colors = ["red", "orange", "yellow", "green", "blue", "magenta",
+              "cyan", "purple", "brown", "gray", "black", "pink"]
 
     start_time = time.time()
 
+    color_index = 0
     for index in range(extern_range):
         for row in range(table_rows):
             tolerance: float = 10**-(row+2)
@@ -63,6 +68,9 @@ def main():
                 k_list.append(method.k)
 
             result_mean = calculate_result_mean(result_list)
+
+            plt.scatter(*zip(*result_list), color=colors[color_index])
+            color_index += 1
 
             tolerance_row.append(str(tolerance))
             time_row.append(str(np.mean(time_list)))
@@ -86,6 +94,8 @@ def main():
     end_time = int(time.time() - start_time)
     print(
         f'\nTempo de processamento total: {end_time // 60}min {end_time % 60}sec')
+
+    plt.show()
 
 
 if __name__ == "__main__":

@@ -3,3 +3,4 @@ sympy==1.12
 scipy==1.10.1
 pandas==2.0.2
 rich==13.3.5
+matplotlib==3.7.1
