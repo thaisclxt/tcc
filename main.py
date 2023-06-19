@@ -2,7 +2,6 @@ import time
 import utils
 import numpy as np
 
-import matplotlib.colors as mcolors
 import matplotlib.pyplot as plt
 from table import generate_table
 from sympy import parse_expr, Expr
