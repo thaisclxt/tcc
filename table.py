@@ -26,8 +26,7 @@ def generate_table(is_MG, function, lambda_row, tolerance_row, time_row, k_row, 
     table.add_column("T\u0304", justify="center", style="blue")
     table.add_column("k\u0304", justify="right", style="magenta")
     table.add_column("x\u0304\u1D4F", justify="center", style="green")
-    table.add_column("\u2225x\u0304\u1D4F - x*\u2225",
-                     justify="center", style="red")
+    table.add_column("\u2225x\u0304\u1D4F - x*\u2225", justify="center", style="red")
 
     rows = 4 if is_MG else 12
     for i in range(rows):

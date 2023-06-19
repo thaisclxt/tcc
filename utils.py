@@ -1,5 +1,6 @@
-from sympy import sympify
 import numpy as np
+
+from sympy import sympify
 
 
 example_functions = {
@@ -65,3 +66,14 @@ def define_global_minimun(is_user_input: bool, function: str) -> np.ndarray:
         x_star = example_functions[function]['global_minimum']
 
     return np.array(x_star, dtype=float)
+
+
+def calculate_result_mean(list: list[np.ndarray]):
+    media_x = np.mean(np.array(list)[:, 0])
+    media_y = np.mean(np.array(list)[:, 1])
+
+    return media_x, media_y
+
+
+def norm(a, b):
+    return np.linalg.norm(a - b)

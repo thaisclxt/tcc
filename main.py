@@ -1,25 +1,15 @@
 import time
 import utils
-import numpy as np
 
+import numpy as np
 import matplotlib.pyplot as plt
+
 from table import generate_table
 from sympy import parse_expr, Expr
 from function import Function
 from methods.MG import MG
 from methods.MGRP import MGRP
 from rich.progress import track
-
-
-def calculate_result_mean(list: list[np.ndarray]):
-    media_x = np.mean(np.array(list)[:, 0])
-    media_y = np.mean(np.array(list)[:, 1])
-
-    return media_x, media_y
-
-
-def norm(a, b):
-    return np.linalg.norm(a - b)
 
 
 def main():
@@ -59,15 +49,14 @@ def main():
             time_list = []
 
             for _ in track(range(total_tests), description="Processando..."):
-                method = MG(func, tolerance) if is_MG else MGRP(
-                    func, tolerance, i)
+                method = MG(func, tolerance) if is_MG else MGRP(func, tolerance, i)
                 method.algorithm()
 
                 time_list.append(method.processing_time)
                 result_list.append(method.xk)
                 k_list.append(method.k)
 
-            result_mean = calculate_result_mean(result_list)
+            result_mean = utils.calculate_result_mean(result_list)
 
             index = j + table_rows * i
 
@@ -78,7 +67,7 @@ def main():
             time_row.append(str(np.mean(time_list)))
             k_row.append(str(np.mean(k_list)))
             x_row.append(str(result_mean))
-            norm_row.append(str(norm(result_mean, x_star)))
+            norm_row.append(str(utils.norm(result_mean, x_star)))
 
             if not is_MG:
                 if i == 0:
@@ -90,12 +79,10 @@ def main():
 
         print()
 
-    generate_table(is_MG, function, lambda_row, tolerance_row,
-                   time_row, k_row, x_row, norm_row)
+    generate_table(is_MG, function, lambda_row, tolerance_row, time_row, k_row, x_row, norm_row)
 
     end_time = int(time.time() - start_time)
-    print(
-        f'\nTempo de processamento total: {end_time // 60}min {end_time % 60}sec')
+    print(f'\nTempo de processamento total: {end_time // 60}min {end_time % 60}sec')
 
     plt.legend(scatter_legend)
     plt.show()
