@@ -54,11 +54,11 @@ class Method():
         """O tempo de processamento do algoritmo que será calculado em `self.set_time`."""
 
     def gradient_xk(self) -> np.ndarray:
-        """Calcula o gradiente de `x\u1D4F` na função.
+        """Calcula o gradiente de `f(x\u1D4F)`.
 
         Explicação
         ----------
-        A função gradiente de `Function` já foi calculado na criação do objeto `function`, portanto a função gradiente é invocada e substitui-se o valor de `x\u1D4F`.
+        O vetor gradiente de `f(x,y)` já foi calculado na criação do objeto `function`, portanto basta substituir os valor de `x\u1D4F`.
 
         Retorno
         -------
