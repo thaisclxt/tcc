@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 from table import generate_table
 from sympy import parse_expr, Expr
 from function import Function
-from methods.MG import MG
+from method import Method
 from methods.MGRP import MGRP
 from rich.progress import track
 
@@ -49,7 +49,7 @@ def main():
             time_list = []
 
             for _ in track(range(total_tests), description="Processando..."):
-                method = MG(func, tolerance) if is_MG else MGRP(func, tolerance, i)
+                method = Method(is_MG, func, tolerance, i)
                 method.algorithm()
 
                 time_list.append(method.processing_time)

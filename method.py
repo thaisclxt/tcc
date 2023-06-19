@@ -7,12 +7,13 @@ from sympy import Symbol, lambdify, simplify
 from function import Function
 
 
-class MG():
-    def __init__(self, function: Function, tolerance: float):
+class Method():
+    def __init__(self, is_MG: bool, function: Function, tolerance: float, index: int):
+        self.is_MG = is_MG
         self.function = function
         self.tolerance = tolerance
-        self.initial_iteration: np.ndarray = np.random.uniform(
-            low=0.0, high=10.0, size=2)
+        self.index = index
+        self.initial_iteration: np.ndarray = np.random.uniform(low=0.0, high=10.0, size=2)
 
         self.k: int = 0
         self.all_iterations: list[np.ndarray] = [self.initial_iteration]
@@ -31,9 +32,21 @@ class MG():
 
         return np.array([a, b], dtype=float)
 
-    def arg_min(self, _gradient_xk):
+    def arg_min_MG(self, _gradient_xk):
         f = self.xk - np.array([self.alpha, self.alpha]) * _gradient_xk
         return simplify(self.function.expression.subs({self.x: f[0], self.y: f[1]}))
+    
+    def arg_min_MGRP(self, _gradient_xk):
+        if self.index == 0:
+            lambda_k = 1 / (self.k+1)
+        elif self.index == 1:
+            lambda_k = 1 + (1 / (self.k+1))
+        else:
+            lambda_k = 2
+
+        norm = (np.linalg.norm(np.array(_gradient_xk)) ** 2)
+
+        return self.alpha ** 2 * lambda_k * norm
 
     # TODO: documentação => xk+1
     def result(self, _alpha_k) -> np.ndarray:
@@ -66,7 +79,11 @@ class MG():
                 break
 
             _gradient_xk = self.gradient_xk()
-            _arg_min = self.arg_min(_gradient_xk)
+            _arg_min = self.arg_min_MG(_gradient_xk)
+            
+            if not self.is_MG:
+                _arg_min + self.arg_min_MGRP(_gradient_xk)
+
             _alpha_k = self.alpha_k(_arg_min)
 
             self.xk = self.result(_alpha_k)
