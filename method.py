@@ -8,12 +8,50 @@ from function import Function
 
 
 class Method():
+    """O método usado no teste.
+
+    Explicação
+    ----------
+    O método pode ser do tipo Método do Gradiente - MG ou Método do Gradiente com Regularização Proximal - MGRP.
+
+    Atributos
+    ---------
+    is_MG : bool
+        Variável que valida se o método escolhido é o MG".
+    function : Function
+        Objeto do tipo Function.
+    tolerance : float
+        A tolerância que será usada como critério de parada para o algoritmo.
+    index : int = 0 | 1 | 2
+        O índice da iteração do laço de repetição externo.
+
+    initial_iteration : np.ndarray
+        O valor da iteração inicial que será sempre atribuído de forma aleatória, a partir do intervalo (0, 10).
+
+    k : int
+        O número da iteração que está sendo processada.
+    all_iterations : list[np.ndarray]
+        Uma lista com os resultados de cada iteração -> todos os `x\u1D4F`.
+
+    x : Symbol
+        Um símbolo x da matemática simbólica.
+    y : Symbol
+        Um símbolo y da matemática simbólica.
+    alpha : Symbol
+        Um símbolo alpha da matemática simbólica.
+
+    processing_time : float
+        O tempo de processamento do algoritmo que será calculado em `self.set_time`.
+    """
+
     def __init__(self, is_MG: bool, function: Function, tolerance: float, index: int):
         self.is_MG = is_MG
         self.function = function
         self.tolerance = tolerance
         self.index = index
-        self.initial_iteration: np.ndarray = np.random.uniform(low=0.0, high=10.0, size=2)
+
+        self.initial_iteration: np.ndarray = np.random.uniform(
+            low=0.0, high=10.0, size=2)
 
         self.k: int = 0
         self.all_iterations: list[np.ndarray] = [self.initial_iteration]
@@ -22,9 +60,22 @@ class Method():
         self.x: Symbol = self.function.x
         self.y: Symbol = self.function.y
         self.alpha: Symbol = self.function.alpha
-        self.processing_time = 0
+
+        self.processing_time: float = 0.0
 
     def gradient_xk(self) -> np.ndarray:
+        """Calcula o gradiente de `x\u1D4F` na função.
+
+        Explicação
+        ----------
+        A função gradiente de `Function` já foi calculado na criação do objeto `function`, portanto a função gradiente é invocada e substitui-se o valor de `x\u1D4F`.
+
+        Retorno
+        -------
+        n : `np.ndarray`
+            O resultado do gradiente de `x\u1D4F`.
+        """
+
         gradient = self.function.gradient
 
         a = gradient[0].subs({self.x: self.xk[0], self.y: self.xk[1]})
@@ -35,7 +86,7 @@ class Method():
     def arg_min_MG(self, _gradient_xk):
         f = self.xk - np.array([self.alpha, self.alpha]) * _gradient_xk
         return simplify(self.function.expression.subs({self.x: f[0], self.y: f[1]}))
-    
+
     def arg_min_MGRP(self, _gradient_xk):
         if self.index == 0:
             lambda_k = 1 / (self.k+1)
@@ -80,7 +131,7 @@ class Method():
 
             _gradient_xk = self.gradient_xk()
             _arg_min = self.arg_min_MG(_gradient_xk)
-            
+
             if not self.is_MG:
                 _arg_min + self.arg_min_MGRP(_gradient_xk)
 
