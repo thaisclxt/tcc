@@ -3,7 +3,6 @@ import numpy as np
 from sympy import sympify
 
 
-# Funções de exemplo usadas no TCC 1
 example_functions = {
     '3*x^2 - 12*x + 3*y^2 - 6*y + 25': {
         'initial_iteration': [-1, -1],
@@ -22,10 +21,10 @@ example_functions = {
         'global_minimum':  [6, 3]
     }
 }
+"""Funções de exemplo usadas no TCC 1."""
 
-
-# A quantidade de funções de exemplo
 number_of_examples = len(example_functions)
+"""A quantidade de funções de exemplo."""
 
 
 def method_type() -> bool:

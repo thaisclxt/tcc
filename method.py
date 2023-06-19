@@ -12,56 +12,46 @@ class Method():
 
     Explicação
     ----------
-    O método pode ser do tipo Método do Gradiente - MG ou Método do Gradiente com Regularização Proximal - MGRP.
-
-    Atributos
-    ---------
-    is_MG : bool
-        Variável que valida se o método escolhido é o MG".
-    function : Function
-        Objeto do tipo Function.
-    tolerance : float
-        A tolerância que será usada como critério de parada para o algoritmo.
-    index : int = 0 | 1 | 2
-        O índice da iteração do laço de repetição externo.
-
-    initial_iteration : np.ndarray
-        O valor da iteração inicial que será sempre atribuído de forma aleatória, a partir do intervalo (0, 10).
-
-    k : int
-        O número da iteração que está sendo processada.
-    all_iterations : list[np.ndarray]
-        Uma lista com os resultados de cada iteração -> todos os `x\u1D4F`.
-
-    x : Symbol
-        Um símbolo x da matemática simbólica.
-    y : Symbol
-        Um símbolo y da matemática simbólica.
-    alpha : Symbol
-        Um símbolo alpha da matemática simbólica.
-
-    processing_time : float
-        O tempo de processamento do algoritmo que será calculado em `self.set_time`.
+    O método pode ser do tipo Método do Gradiente - MG ou Método do Gradiente com Regularização Proximal - MGRP.        
     """
 
     def __init__(self, is_MG: bool, function: Function, tolerance: float, index: int):
         self.is_MG = is_MG
+        """Variável que valida se o método escolhido é o MG."""
+
         self.function = function
+        """Instância da classe `Function`."""
+
         self.tolerance = tolerance
+        """A tolerância que será usada como critério de parada para o algoritmo."""
+
         self.index = index
+        """O índice da iteração do laço de repetição externo, podendo ser 0 | 1 | 2."""
 
         self.initial_iteration: np.ndarray = np.random.uniform(
             low=0.0, high=10.0, size=2)
+        """O valor da iteração inicial que será sempre atribuído de forma aleatória, a partir do intervalo (0, 10)."""
 
         self.k: int = 0
+        """O número da iteração que está sendo processada."""
+
         self.all_iterations: list[np.ndarray] = [self.initial_iteration]
+        """Uma lista com os resultados de cada iteração -> todos os `x\u1D4F`."""
+
         self.xk: np.ndarray = self.all_iterations[self.k]
+        """O valor do `x\u1D4F` atual."""
 
         self.x: Symbol = self.function.x
+        """Um símbolo x da matemática simbólica."""
+
         self.y: Symbol = self.function.y
+        """Um símbolo y da matemática simbólica."""
+
         self.alpha: Symbol = self.function.alpha
+        """Um símbolo alpha da matemática simbólica."""
 
         self.processing_time: float = 0.0
+        """O tempo de processamento do algoritmo que será calculado em `self.set_time`."""
 
     def gradient_xk(self) -> np.ndarray:
         """Calcula o gradiente de `x\u1D4F` na função.
