@@ -7,10 +7,11 @@
 .r3 {font-weight: bold}
 .r4 {color: #c0c0c0; text-decoration-color: #c0c0c0}
 .r5 {color: #008080; text-decoration-color: #008080}
-.r6 {color: #000080; text-decoration-color: #000080}
-.r7 {color: #800080; text-decoration-color: #800080}
-.r8 {color: #008000; text-decoration-color: #008000}
-.r9 {color: #800000; text-decoration-color: #800000}
+.r6 {color: #808000; text-decoration-color: #808000}
+.r7 {color: #000080; text-decoration-color: #000080}
+.r8 {color: #800080; text-decoration-color: #800080}
+.r9 {color: #008000; text-decoration-color: #008000}
+.r10 {color: #800000; text-decoration-color: #800000}
 body {
     color: #000000;
     background-color: #ffffff;
@@ -19,17 +20,25 @@ body {
 </head>
 <html>
 <body>
-    <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code><span class="r1">                                                                                                               </span>
-<span class="r1">               Testes do Método do Gradiente - MG para a função </span><span class="r2">3*x^2 - 12*x + 3*y^2 - 6*y + 25</span><span class="r1">                </span>
-<span class="r1">                                                                                                               </span>
-┏━━━━┳━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━┳━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┓
-┃<span class="r3"> nº </span>┃<span class="r3">    tol </span>┃<span class="r3">          T̄          </span>┃<span class="r3">   k̄ </span>┃<span class="r3">                    x̄ᵏ                    </span>┃<span class="r3">       ∥x̄ᵏ - x*∥        </span>┃
-┡━━━━╇━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━╇━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━┩
-│<span class="r4">  0 </span>│<span class="r5">   0.01 </span>│<span class="r6"> 0.08206121921539307 </span>│<span class="r7"> 2.0 </span>│<span class="r8"> (2.000000071349869, 1.0000000524231294)  </span>│<span class="r9"> 8.853806141641125e-08  </span>│
-│<span class="r4">  1 </span>│<span class="r5">  0.001 </span>│<span class="r6"> 0.08743045330047608 </span>│<span class="r7"> 2.3 </span>│<span class="r8"> (2.000000045051384, 1.0000000902609583)  </span>│<span class="r9"> 1.0087947156382548e-07 </span>│
-│<span class="r4">  2 </span>│<span class="r5"> 0.0001 </span>│<span class="r6"> 0.11561453342437744 </span>│<span class="r7"> 3.0 </span>│<span class="r8"> (2.000000044233892, 1.0000000357205754)  </span>│<span class="r9"> 5.685592947682545e-08  </span>│
-│<span class="r4">  3 </span>│<span class="r5">  1e-05 </span>│<span class="r6"> 0.11612541675567627 </span>│<span class="r7"> 3.0 </span>│<span class="r8"> (2.0000000470270156, 1.0000000789495094) </span>│<span class="r9"> 9.189431553759782e-08  </span>│
-└────┴────────┴─────────────────────┴─────┴──────────────────────────────────────────┴────────────────────────┘
+    <pre style="font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><code><span class="r1">                                                                                                                                                </span>
+<span class="r1">                 Testes do Método do Gradiente com Regularização Proximal - MGRP para a função </span><span class="r2">3*x^2 - 12*x + 3*y^2 - 6*y + 25</span><span class="r1">                  </span>
+<span class="r1">                                                                                                                                                </span>
+┏━━━━┳━━━━━━━━┳━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃<span class="r3"> nº </span>┃<span class="r3">    tol </span>┃<span class="r3">       λk        </span>┃<span class="r3">          T̄          </span>┃<span class="r3">                  k̄ </span>┃<span class="r3">                    x̄ᵏ                    </span>┃<span class="r3">       ∥x̄ᵏ - x*∥        </span>┃
+┡━━━━╇━━━━━━━━╇━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━┩
+│<span class="r4">  0 </span>│<span class="r5">   0.01 </span>│<span class="r6">    1 / (k+1)    </span>│<span class="r7"> 0.11014310518900554 </span>│<span class="r8">                2.0 </span>│<span class="r9"> (2.0000000392620225, 1.0000000778576552) </span>│<span class="r10"> 8.719702338730531e-08  </span>│
+│<span class="r4">  1 </span>│<span class="r5">  0.001 </span>│<span class="r6">    1 / (k+1)    </span>│<span class="r7"> 0.08287437756856282 </span>│<span class="r8">                2.0 </span>│<span class="r9"> (1.9999999926448304, 1.0000000739691295) </span>│<span class="r10"> 7.433391310068097e-08  </span>│
+│<span class="r4">  2 </span>│<span class="r5"> 0.0001 </span>│<span class="r6">    1 / (k+1)    </span>│<span class="r7"> 0.10338036219278972 </span>│<span class="r8"> 2.6666666666666665 </span>│<span class="r9"> (2.0000000097570294, 1.0000000078682107) </span>│<span class="r10"> 1.2534287504374415e-08 </span>│
+│<span class="r4">  3 </span>│<span class="r5">  1e-05 </span>│<span class="r6">    1 / (k+1)    </span>│<span class="r7"> 0.11617151896158855 </span>│<span class="r8">                3.0 </span>│<span class="r9"> (2.000000072396254, 1.0000000833610085)  </span>│<span class="r10"> 1.1040957984176581e-07 </span>│
+│<span class="r4">  4 </span>│<span class="r5">   0.01 </span>│<span class="r6"> 1 + (1 / (k+1)) </span>│<span class="r7"> 0.07443531354268391 </span>│<span class="r8">                2.0 </span>│<span class="r9"> (1.9999999920502027, 1.0000000652105596) </span>│<span class="r10"> 6.569335097523106e-08  </span>│
+│<span class="r4">  5 </span>│<span class="r5">  0.001 </span>│<span class="r6"> 1 + (1 / (k+1)) </span>│<span class="r7"> 0.07285284996032715 </span>│<span class="r8">                2.0 </span>│<span class="r9"> (2.000000043285357, 1.0000000266986158)  </span>│<span class="r10"> 5.085703708313877e-08  </span>│
+│<span class="r4">  6 </span>│<span class="r5"> 0.0001 </span>│<span class="r6"> 1 + (1 / (k+1)) </span>│<span class="r7"> 0.11473703384399414 </span>│<span class="r8">                3.0 </span>│<span class="r9"> (2.000000071661447, 1.0000000264932494)  </span>│<span class="r10"> 7.640193222840569e-08  </span>│
+│<span class="r4">  7 </span>│<span class="r5">  1e-05 </span>│<span class="r6"> 1 + (1 / (k+1)) </span>│<span class="r7"> 0.11475658416748047 </span>│<span class="r8">                3.0 </span>│<span class="r9"> (2.0000000728901965, 1.000000057376319)  </span>│<span class="r10"> 9.276326178906203e-08  </span>│
+│<span class="r4">  8 </span>│<span class="r5">   0.01 </span>│<span class="r6">        2        </span>│<span class="r7"> 0.07273753484090169 </span>│<span class="r8">                2.0 </span>│<span class="r9"> (2.000000033755882, 1.0000000812884275)  </span>│<span class="r10"> 8.801856638424795e-08  </span>│
+│<span class="r4">  9 </span>│<span class="r5">  0.001 </span>│<span class="r6">        2        </span>│<span class="r7"> 0.07317447662353516 </span>│<span class="r8">                2.0 </span>│<span class="r9"> (2.000000065746128, 1.0000000381723257)  </span>│<span class="r10"> 7.602420543846325e-08  </span>│
+│<span class="r4"> 10 </span>│<span class="r5"> 0.0001 </span>│<span class="r6">        2        </span>│<span class="r7"> 0.11394198735555013 </span>│<span class="r8">                3.0 </span>│<span class="r9">  (2.000000047815196, 1.00000007404532)   </span>│<span class="r10"> 8.814194448734715e-08  </span>│
+│<span class="r4"> 11 </span>│<span class="r5">  1e-05 </span>│<span class="r6">        2        </span>│<span class="r7"> 0.11592221260070801 </span>│<span class="r8">                3.0 </span>│<span class="r9"> (2.000000081764391, 1.0000000603526007)  </span>│<span class="r10"> 1.0162604004749765e-07 </span>│
+└────┴────────┴─────────────────┴─────────────────────┴────────────────────┴──────────────────────────────────────────┴────────────────────────┘
 </code></pre>
 </body>
 </html>

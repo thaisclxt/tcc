@@ -8,7 +8,6 @@ from table import generate_table
 from sympy import parse_expr, Expr
 from function import Function
 from method import Method
-from methods.MGRP import MGRP
 from rich.progress import track
 
 
