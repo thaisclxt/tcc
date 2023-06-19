@@ -78,10 +78,12 @@ def main():
 
         print()
 
-    generate_table(is_MG, function, lambda_row, tolerance_row, time_row, k_row, x_row, norm_row)
+    generate_table(is_MG, function, lambda_row, tolerance_row,
+                   time_row, k_row, x_row, norm_row)
 
     end_time = int(time.time() - start_time)
-    print(f'\nTempo de processamento total: {end_time // 60}min {end_time % 60}sec')
+    print(
+        f'\nTempo de processamento total: {end_time // 60}min {end_time % 60}sec')
 
     plt.legend(scatter_legend)
     plt.show()

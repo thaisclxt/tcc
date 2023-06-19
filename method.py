@@ -3,7 +3,7 @@ import time
 import numpy as np
 
 from scipy import optimize
-from sympy import Symbol, lambdify, simplify
+from sympy import Symbol, Expr, lambdify, simplify
 from function import Function
 
 
@@ -73,11 +73,7 @@ class Method():
 
         return np.array([a, b], dtype=float)
 
-    def arg_min_MG(self, _gradient_xk):
-        f = self.xk - np.array([self.alpha, self.alpha]) * _gradient_xk
-        return simplify(self.function.expression.subs({self.x: f[0], self.y: f[1]}))
-
-    def arg_min_MGRP(self, _gradient_xk):
+    def multiply_tow_squared_values(self, _gradient_xk):
         if self.index == 0:
             lambda_k = 1 / (self.k+1)
         elif self.index == 1:
@@ -89,18 +85,31 @@ class Method():
 
         return self.alpha ** 2 * lambda_k * norm
 
+    def subtract_tow_vectors(self, _gradient_xk) -> np.ndarray:
+        return self.xk - np.array([self.alpha, self.alpha]) * _gradient_xk
+
+    def substitute_x_y(self, _gradient_xk) -> Expr:
+        f = self.subtract_tow_vectors(_gradient_xk)
+        return self.function.expression.subs({self.x: f[0], self.y: f[1]})
+
+    def arg_min(self, _gradient_xk):
+        function = self.substitute_x_y(_gradient_xk)
+
+        if not self.is_MG:
+            function += self.multiply_tow_squared_values(_gradient_xk)
+
+        simplified_function: Expr = simplify(function)
+
+        f = lambdify(self.alpha, simplified_function)
+        minimize = optimize.fmin(f, 0, disp=False)
+
+        return minimize[0]
+
     # TODO: documentação => xk+1
-    def result(self, _alpha_k) -> np.ndarray:
-        return self.xk - np.array([_alpha_k, _alpha_k]) * self.gradient_xk()
+    def result(self, _gradient_xk) -> np.ndarray:
+        alpha_k = self.arg_min(_gradient_xk)
 
-    def alpha_k(self, arg_min):
-        f = lambdify(self.alpha, arg_min)
-
-        resultado = optimize.fmin(f, 0, disp=False)
-        return resultado[0]
-
-    def get_actual_x(self) -> np.ndarray:
-        return
+        return self.xk - np.array([alpha_k, alpha_k]) * self.gradient_xk()
 
     def set_time(self, start_time: float) -> None:
         self.processing_time = time.time() - start_time
@@ -120,14 +129,8 @@ class Method():
                 break
 
             _gradient_xk = self.gradient_xk()
-            _arg_min = self.arg_min_MG(_gradient_xk)
 
-            if not self.is_MG:
-                _arg_min + self.arg_min_MGRP(_gradient_xk)
-
-            _alpha_k = self.alpha_k(_arg_min)
-
-            self.xk = self.result(_alpha_k)
+            self.xk = self.result(_gradient_xk)
             self.all_iterations.append(self.xk)
 
             self.k += 1
