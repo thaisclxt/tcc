@@ -41,6 +41,8 @@ def main():
 
     print()
 
+    scatter_legend = []
+
     extern_range = 1 if is_MG else 3
     table_rows = 4
     total_tests = 100
@@ -49,16 +51,16 @@ def main():
 
     start_time = time.time()
 
-    for index in range(extern_range):
-        for row in range(table_rows):
-            tolerance: float = 10**-(row+2)
+    for i in range(extern_range):
+        for j in range(table_rows):
+            tolerance: float = 10**-(j+2)
             result_list = []
             k_list = []
             time_list = []
 
             for _ in track(range(total_tests), description="Processando..."):
                 method = MG(func, tolerance) if is_MG else MGRP(
-                    func, tolerance, index)
+                    func, tolerance, i)
                 method.algorithm()
 
                 time_list.append(method.processing_time)
@@ -67,8 +69,10 @@ def main():
 
             result_mean = calculate_result_mean(result_list)
 
-            plt.scatter(*zip(*result_list),
-                        color=colors[row + table_rows * index])
+            index = j + table_rows * i
+
+            plt.scatter(*zip(*result_list), color=colors[index])
+            scatter_legend.append(f'Caso de teste {index}')
 
             tolerance_row.append(str(tolerance))
             time_row.append(str(np.mean(time_list)))
@@ -77,9 +81,9 @@ def main():
             norm_row.append(str(norm(result_mean, x_star)))
 
             if not is_MG:
-                if index == 0:
+                if i == 0:
                     lambda_row.append('1 / (k+1)')
-                elif index == 1:
+                elif i == 1:
                     lambda_row.append('1 + (1 / (k+1))')
                 else:
                     lambda_row.append('2')
@@ -93,6 +97,7 @@ def main():
     print(
         f'\nTempo de processamento total: {end_time // 60}min {end_time % 60}sec')
 
+    plt.legend(scatter_legend)
     plt.show()
 
 
