@@ -12,6 +12,17 @@ from rich.progress import track
 
 
 def main():
+    """A função `main` do programa, ou seja a função principal.
+    
+    Explicação
+    ----------
+    Após as atribuições de valores nas variáveis, o programa executa 3 laços de repetições encadeados.
+
+    Para ambos os métodos, MG e MGRP, será feito 4 execuções distintas de 100 casos com iterações iniciais aleatórias.
+    - Caso o método escolhido seja MGRP, a constante λ atribui 3 tipos de valores diferentes para cada uma das 4 execuções, totalizando 3*4*100 = 1200 casos de teste.
+    - Caso o método escolhido seja MG, será feito 1*4*100 = 400 casos de teste. 
+    """
+
     is_MG = utils.method_type()
     is_user_input = utils.function_type()
     function = utils.define_function(is_user_input)
@@ -30,11 +41,11 @@ def main():
 
     print()
 
-    scatter_legend = []
-
     extern_range = 1 if is_MG else 3
     table_rows = 4
     total_tests = 100
+
+    scatter_legend = []
     colors = ["red", "orange", "yellow", "green", "blue", "magenta",
               "cyan", "purple", "brown", "gray", "black", "pink"]
 
