@@ -13,7 +13,7 @@ from rich.progress import track
 
 def main():
     """A função `main` do programa, ou seja a função principal.
-    
+
     Explicação
     ----------
     Após as atribuições de valores nas variáveis, o programa executa 3 laços de repetições encadeados.
@@ -97,6 +97,8 @@ def main():
         f'\nTempo de processamento total: {end_time // 60}min {end_time % 60}sec')
 
     plt.legend(scatter_legend)
+    plt.ylabel('Eixo y')
+    plt.xlabel('Eixo x')
     plt.show()
 
 
